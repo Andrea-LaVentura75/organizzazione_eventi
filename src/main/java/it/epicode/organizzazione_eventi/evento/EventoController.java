@@ -18,14 +18,14 @@ public class EventoController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ORGANIZER')")
-    public ResponseEntity<Evento> creaEvento(@Valid @RequestBody EventoRequest eventoRequest) {
+    public ResponseEntity<Evento> creaEvento( @RequestBody EventoRequest eventoRequest) {
         Evento evento = eventoService.creaEvento(eventoRequest);
         return new ResponseEntity<>(evento, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ORGANIZER')")
-    public ResponseEntity<Evento> modificaEvento(@PathVariable Long id, @Valid @RequestBody EventoRequest eventoRequest) throws AccessDeniedException {
+    public ResponseEntity<Evento> modificaEvento(@PathVariable Long id,  @RequestBody EventoRequest eventoRequest) throws AccessDeniedException {
         Evento evento = eventoService.modificaEvento(id, eventoRequest);
         return new ResponseEntity<>(evento, HttpStatus.OK);
     }

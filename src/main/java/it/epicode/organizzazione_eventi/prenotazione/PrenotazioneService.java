@@ -7,16 +7,19 @@ import it.epicode.organizzazione_eventi.evento.Evento;
 import it.epicode.organizzazione_eventi.evento.EventoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Validated
 public class PrenotazioneService {
 
     @Autowired
@@ -25,7 +28,7 @@ public class PrenotazioneService {
     private  EventoRepository eventoRepository;
 
     @Transactional
-    public Prenotazione prenotazioneEvento(PrenotazioneRequest prenotazioneRequest, AppUser currentUser) {
+    public Prenotazione prenotazioneEvento(@Valid PrenotazioneRequest prenotazioneRequest, AppUser currentUser) {
         Evento evento = eventoRepository.findById(prenotazioneRequest.getEventoId())
                 .orElseThrow(() -> new EntityNotFoundException("prenotazione non trovata"));
 

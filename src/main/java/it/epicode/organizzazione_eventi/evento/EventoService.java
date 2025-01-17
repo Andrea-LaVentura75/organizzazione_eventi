@@ -4,14 +4,17 @@ import it.epicode.organizzazione_eventi.auth.AppUser;
 import it.epicode.organizzazione_eventi.auth.AppUserRepository;
 import it.epicode.organizzazione_eventi.auth.Role;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.nio.file.AccessDeniedException;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class EventoService {
 
@@ -24,7 +27,7 @@ public class EventoService {
         return appUserRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("utente non esistente"));
     }
 
-    public  Evento creaEvento(EventoRequest eventoRequest){
+    public  Evento creaEvento(@Valid EventoRequest eventoRequest){
         AppUser organizer = appUserRepository.findById(eventoRequest.getOrganizzatoreId())
                 .orElseThrow(() -> new EntityNotFoundException("Organizzatore non trovato"));
         Evento evento = new Evento();
@@ -33,7 +36,7 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public Evento modificaEvento(Long id, EventoRequest eventoRequest) throws AccessDeniedException {
+    public Evento modificaEvento(Long id,@Valid EventoRequest eventoRequest) throws AccessDeniedException {
         Evento evento = eventoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Evento non trovato"));
 

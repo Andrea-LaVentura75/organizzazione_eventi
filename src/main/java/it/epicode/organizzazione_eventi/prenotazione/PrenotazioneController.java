@@ -20,7 +20,7 @@ public class PrenotazioneController {
 
     @PostMapping("/prenotazioni")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Prenotazione> prenotaEvento(@Valid @RequestBody PrenotazioneRequest prenotazioneRequest, Principal principal) {
+    public ResponseEntity<Prenotazione> prenotaEvento( @RequestBody PrenotazioneRequest prenotazioneRequest, Principal principal) {
 
         AppUser currentUser = appUserRepository.findByUsername(principal.getName())
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
